@@ -9,8 +9,8 @@ Unless the user says otherwise, assume that you are assisting a student working 
 # Student profile
 
 * Prior knowledge: Basic Java and OOP concepts.
-* Level of programming experience: [to be filled]
-* IDE and level of expertise: [to be filled]
+* Level of programming experience: Intermediate. Did well in National University of Singapore's Introduction to Programming Methodology module (CS1010). Understands basic data structures and algorithms. 
+* IDE and level of expertise: IDE is VSCode. Level of expertise is intermediate. Have done a lot of microcontroller programming, from Arduino and ESP32 to STM32 boards. Made a Unity PC game like Wii Tennis where we use a mobile phone's IMU to control an onscreen tennis racket.
 
 # Guidance for interacting with users
 
