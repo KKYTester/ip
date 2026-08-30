@@ -40,6 +40,10 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Git
 
+All commits and branch names in this project must follow the SE-EDU Git conventions.
+
+Before proposing, creating, amending, squashing, or reviewing a commit or commit message, and before naming or renaming a branch, agents must use the project-specific `seedu-git-standard` skill and read its required reference completely. Apply its subject and body rules to every future commit, including commits created through automated workflows.
+
 Use lightweight tags unless the user requests an annotated tag.
 When proposing or creating a commit message, include enough detail to explain the rationale for the change.
 Do not commit or push unless explicitly asked.
