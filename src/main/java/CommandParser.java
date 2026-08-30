@@ -31,12 +31,38 @@ public class CommandParser {
         }
 
         if (commandWord.equalsIgnoreCase("list")) {
-            command.showTaskList(taskList.getTasks());
+            command.showTaskList(taskList.getTasks(), taskList.getCompletionStatuses());
+            return false;
+        }
+
+        String[] commandParts = commandWord.split("\\s+", 2);
+        if (commandParts[0].equalsIgnoreCase("mark")) {
+            markTask(commandParts);
             return false;
         }
 
         taskList.add(userInput);
         command.echoCommand(userInput);
         return false;
+    }
+
+    /**
+     * Marks the task selected by a {@code mark TASK_NUMBER} command.
+     *
+     * @param commandParts Command word and its optional argument.
+     */
+    private void markTask(String[] commandParts) {
+        if (commandParts.length < 2) {
+            command.showInvalidTaskNumber();
+            return;
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(commandParts[1]);
+            String markedTask = taskList.markAsDone(taskNumber);
+            command.showTaskMarkedAsDone(markedTask);
+        } catch (NumberFormatException | IndexOutOfBoundsException exception) {
+            command.showInvalidTaskNumber();
+        }
     }
 }

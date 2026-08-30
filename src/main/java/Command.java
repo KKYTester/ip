@@ -51,15 +51,39 @@ public class Command {
      * Displays all stored tasks with one-based numbering.
      *
      * @param tasks Tasks to display in input order.
+     * @param completionStatuses Completion state for each corresponding task.
      */
-    public void showTaskList(List<String> tasks) {
+    public void showTaskList(List<String> tasks, List<Boolean> completionStatuses) {
         System.out.println(SEPARATOR);
+        System.out.println(" Here are the tasks in your list:");
         if (tasks.size() <= 0) {
-            System.out.println("[List is currently empty]");
+            System.out.println(" [List is currently empty]");
         }
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.printf("(%d) %s%n", i + 1, tasks.get(i));
+            String statusIcon = completionStatuses.get(i) ? "X" : " ";
+            System.out.printf(" %d.[%s] %s%n", i + 1, statusIcon, tasks.get(i));
         }
+        System.out.println(SEPARATOR);
+    }
+
+    /**
+     * Confirms that a task has been marked as done.
+     *
+     * @param task Text of the task that was completed.
+     */
+    public void showTaskMarkedAsDone(String task) {
+        System.out.println(SEPARATOR);
+        System.out.println(" Nice! I've marked this task as done:");
+        System.out.printf("   [X] %s%n", task);
+        System.out.println(SEPARATOR);
+    }
+
+    /**
+     * Explains that a mark command did not identify a task in the list.
+     */
+    public void showInvalidTaskNumber() {
+        System.out.println(SEPARATOR);
+        System.out.println(" Please enter the number of a task in your list.");
         System.out.println(SEPARATOR);
     }
 
