@@ -4,6 +4,11 @@ import java.util.Scanner;
  * Starts the Potato chatbot application.
  */
 public class Potato {
+    /**
+     * Starts the application and processes commands until the user exits.
+     *
+     * @param args Command-line arguments, which are not used.
+     */
     public static void main(String[] args) {
         String banner = " ____   ___    _____     _     _____   ___\n"
                 + "|  _ \\ / _ \\  |_   _|   / \\   |_   _| / _ \\\n"
