@@ -51,17 +51,15 @@ public class Command {
      * Displays all stored tasks with one-based numbering.
      *
      * @param tasks Tasks to display in input order.
-     * @param completionStatuses Completion state for each corresponding task.
      */
-    public void showTaskList(List<String> tasks, List<Boolean> completionStatuses) {
+    public void showTaskList(List<Task> tasks) {
         System.out.println(SEPARATOR);
         System.out.println(" Here are the tasks in your list:");
         if (tasks.size() <= 0) {
             System.out.println(" [List is currently empty]");
         }
         for (int i = 0; i < tasks.size(); i++) {
-            String statusIcon = completionStatuses.get(i) ? "X" : " ";
-            System.out.printf(" %d.[%s] %s%n", i + 1, statusIcon, tasks.get(i));
+            System.out.printf(" %d.%s%n", i + 1, tasks.get(i));
         }
         System.out.println(SEPARATOR);
     }
@@ -69,24 +67,24 @@ public class Command {
     /**
      * Confirms that a task has been marked as done.
      *
-     * @param task Text of the task that was completed.
+     * @param task Task that was completed.
      */
-    public void showTaskMarkedAsDone(String task) {
+    public void showTaskMarkedAsDone(Task task) {
         System.out.println(SEPARATOR);
         System.out.println(" Nice! I've marked this task as done:");
-        System.out.printf("   [X] %s%n", task);
+        System.out.printf("   %s%n", task);
         System.out.println(SEPARATOR);
     }
 
     /**
      * Confirms that a task has been marked as not done.
      *
-     * @param task Text of the task whose completion was reversed.
+     * @param task Task whose completion was reversed.
      */
-    public void showTaskMarkedAsNotDone(String task) {
+    public void showTaskMarkedAsNotDone(Task task) {
         System.out.println(SEPARATOR);
         System.out.println(" OK, I've marked this task as not done yet:");
-        System.out.printf("   [ ] %s%n", task);
+        System.out.printf("   %s%n", task);
         System.out.println(SEPARATOR);
     }
 

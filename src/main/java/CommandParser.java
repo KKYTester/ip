@@ -31,7 +31,7 @@ public class CommandParser {
         }
 
         if (commandWord.equalsIgnoreCase("list")) {
-            command.showTaskList(taskList.getTasks(), taskList.getCompletionStatuses());
+            command.showTaskList(taskList.getTasks());
             return false;
         }
 
@@ -64,7 +64,7 @@ public class CommandParser {
 
         try {
             int taskNumber = Integer.parseInt(commandParts[1]);
-            String markedTask = taskList.markAsDone(taskNumber);
+            Task markedTask = taskList.markAsDone(taskNumber);
             command.showTaskMarkedAsDone(markedTask);
         } catch (NumberFormatException | IndexOutOfBoundsException exception) {
             command.showInvalidTaskNumber();
@@ -84,7 +84,7 @@ public class CommandParser {
 
         try {
             int taskNumber = Integer.parseInt(commandParts[1]);
-            String unmarkedTask = taskList.markAsNotDone(taskNumber);
+            Task unmarkedTask = taskList.markAsNotDone(taskNumber);
             command.showTaskMarkedAsNotDone(unmarkedTask);
         } catch (NumberFormatException | IndexOutOfBoundsException exception) {
             command.showInvalidTaskNumber();

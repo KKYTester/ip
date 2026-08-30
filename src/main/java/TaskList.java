@@ -7,8 +7,7 @@ import java.util.List;
 public class TaskList {
     private static final int EXPECTED_MAXIMUM_SIZE = 100;
 
-    private final List<String> tasks = new ArrayList<>(EXPECTED_MAXIMUM_SIZE);
-    private final List<Boolean> completionStatuses = new ArrayList<>(EXPECTED_MAXIMUM_SIZE);
+    private final List<Task> tasks = new ArrayList<>(EXPECTED_MAXIMUM_SIZE);
 
     /**
      * Adds a task to the end of the list.
@@ -16,40 +15,33 @@ public class TaskList {
      * @param task Task text to store.
      */
     public void add(String task) {
-        tasks.add(task);
-        completionStatuses.add(false);
+        tasks.add(new Task(task));
     }
 
     /**
      * Marks the task at the given one-based position as done.
      *
      * @param taskNumber One-based task number shown by the {@code list} command.
-     * @return Text of the task that was marked as done.
+     * @return Task that was marked as done.
      * @throws IndexOutOfBoundsException If the task number is not in the list.
      */
-    public String markAsDone(int taskNumber) {
-        int taskIndex = taskNumber - 1;
-        if (taskIndex < 0 || taskIndex >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task number is outside the list");
-        }
-        completionStatuses.set(taskIndex, true);
-        return tasks.get(taskIndex);
+    public Task markAsDone(int taskNumber) {
+        Task task = getTask(taskNumber);
+        task.markAsDone();
+        return task;
     }
 
     /**
      * Marks the task at the given one-based position as not done.
      *
      * @param taskNumber One-based task number shown by the {@code list} command.
-     * @return Text of the task that was marked as not done.
+     * @return Task that was marked as not done.
      * @throws IndexOutOfBoundsException If the task number is not in the list.
      */
-    public String markAsNotDone(int taskNumber) {
-        int taskIndex = taskNumber - 1;
-        if (taskIndex < 0 || taskIndex >= tasks.size()) {
-            throw new IndexOutOfBoundsException("Task number is outside the list");
-        }
-        completionStatuses.set(taskIndex, false);
-        return tasks.get(taskIndex);
+    public Task markAsNotDone(int taskNumber) {
+        Task task = getTask(taskNumber);
+        task.markAsNotDone();
+        return task;
     }
 
     /**
@@ -57,16 +49,22 @@ public class TaskList {
      *
      * @return Tasks in input order.
      */
-    public List<String> getTasks() {
+    public List<Task> getTasks() {
         return List.copyOf(tasks);
     }
 
     /**
-     * Returns an unmodifiable snapshot of the completion state for each task.
+     * Returns the task at the given one-based position.
      *
-     * @return Completion states in the same order as {@link #getTasks()}.
+     * @param taskNumber One-based task number shown by the {@code list} command.
+     * @return Task at the requested position.
+     * @throws IndexOutOfBoundsException If the task number is not in the list.
      */
-    public List<Boolean> getCompletionStatuses() {
-        return List.copyOf(completionStatuses);
+    private Task getTask(int taskNumber) {
+        int taskIndex = taskNumber - 1;
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+            throw new IndexOutOfBoundsException("Task number is outside the list");
+        }
+        return tasks.get(taskIndex);
     }
 }
