@@ -37,6 +37,22 @@ public class TaskList {
     }
 
     /**
+     * Marks the task at the given one-based position as not done.
+     *
+     * @param taskNumber One-based task number shown by the {@code list} command.
+     * @return Text of the task that was marked as not done.
+     * @throws IndexOutOfBoundsException If the task number is not in the list.
+     */
+    public String markAsNotDone(int taskNumber) {
+        int taskIndex = taskNumber - 1;
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+            throw new IndexOutOfBoundsException("Task number is outside the list");
+        }
+        completionStatuses.set(taskIndex, false);
+        return tasks.get(taskIndex);
+    }
+
+    /**
      * Returns an unmodifiable snapshot of the stored tasks.
      *
      * @return Tasks in input order.

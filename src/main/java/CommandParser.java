@@ -41,6 +41,11 @@ public class CommandParser {
             return false;
         }
 
+        if (commandParts[0].equalsIgnoreCase("unmark")) {
+            unmarkTask(commandParts);
+            return false;
+        }
+
         taskList.add(userInput);
         command.echoCommand(userInput);
         return false;
@@ -61,6 +66,26 @@ public class CommandParser {
             int taskNumber = Integer.parseInt(commandParts[1]);
             String markedTask = taskList.markAsDone(taskNumber);
             command.showTaskMarkedAsDone(markedTask);
+        } catch (NumberFormatException | IndexOutOfBoundsException exception) {
+            command.showInvalidTaskNumber();
+        }
+    }
+
+    /**
+     * Reverses completion for the task selected by an {@code unmark TASK_NUMBER} command.
+     *
+     * @param commandParts Command word and its optional argument.
+     */
+    private void unmarkTask(String[] commandParts) {
+        if (commandParts.length < 2) {
+            command.showInvalidTaskNumber();
+            return;
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(commandParts[1]);
+            String unmarkedTask = taskList.markAsNotDone(taskNumber);
+            command.showTaskMarkedAsNotDone(unmarkedTask);
         } catch (NumberFormatException | IndexOutOfBoundsException exception) {
             command.showInvalidTaskNumber();
         }

@@ -79,7 +79,19 @@ public class Command {
     }
 
     /**
-     * Explains that a mark command did not identify a task in the list.
+     * Confirms that a task has been marked as not done.
+     *
+     * @param task Text of the task whose completion was reversed.
+     */
+    public void showTaskMarkedAsNotDone(String task) {
+        System.out.println(SEPARATOR);
+        System.out.println(" OK, I've marked this task as not done yet:");
+        System.out.printf("   [ ] %s%n", task);
+        System.out.println(SEPARATOR);
+    }
+
+    /**
+     * Explains that a mark or unmark command did not identify a task in the list.
      */
     public void showInvalidTaskNumber() {
         System.out.println(SEPARATOR);
