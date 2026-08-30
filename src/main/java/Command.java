@@ -54,6 +54,9 @@ public class Command {
      */
     public void showTaskList(List<String> tasks) {
         System.out.println(SEPARATOR);
+        if (tasks.size() <= 0) {
+            System.out.println("[List is currently empty]");
+        }
         for (int i = 0; i < tasks.size(); i++) {
             System.out.printf("(%d) %s%n", i + 1, tasks.get(i));
         }
