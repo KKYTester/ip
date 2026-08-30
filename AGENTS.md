@@ -24,6 +24,16 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 # Project-specific requirements
 
+## Java coding standard
+
+All Java source and test code in this project must follow the SE-EDU basic and intermediate Java coding standard, except for the course-level exception below.
+
+Before creating, modifying, refactoring, or reviewing Java code, agents must use the project-specific `seedu-java-coding-standard` skill and read its required reference completely. Apply the standard to all new Java code and to every line materially changed by the task. Do not reformat unrelated code solely for style unless the user requests a broader cleanup.
+
+### Current course-level exception
+
+Do not add Java package declarations or move Java files into package directories until the user says that packages have been introduced in the course. Keep Java files directly under `src/main/java` in the unnamed package.
+
 ## Java version:
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
