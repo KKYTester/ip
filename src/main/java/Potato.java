@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,9 +18,10 @@ public class Potato {
         printGreeting(banner);
 
         Scanner scanner = new Scanner(System.in);
+        List<String> tasks = new ArrayList<>(100);
         while (scanner.hasNextLine()) {
             String command = readCommand(scanner);
-            if (parseInput(command)) {
+            if (parseInput(command, tasks)) {
                 break;
             }
         }
@@ -49,16 +52,36 @@ public class Potato {
      * Parses a user command, prints the appropriate response, and reports whether Potato should exit.
      *
      * @param command Command entered by the user.
+     * @param tasks Tasks entered during the current application session.
      * @return {@code true} when the command is "bye", ignoring case and surrounding whitespace.
      */
-    static boolean parseInput(String command) {
+    static boolean parseInput(String command, List<String> tasks) {
         if (command.trim().equalsIgnoreCase("bye")) {
             printFarewell();
             return true;
         }
 
+        if (command.trim().equalsIgnoreCase("list")) {
+            printTaskList(tasks);
+            return false;
+        }
+
+        tasks.add(command);
         echoCommand(command);
         return false;
+    }
+
+    /**
+     * Prints all stored tasks in the order in which they were entered.
+     *
+     * @param tasks Tasks entered during the current application session.
+     */
+    private static void printTaskList(List<String> tasks) {
+        System.out.println(SEPARATOR);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.printf("(%d) %s%n", i + 1, tasks.get(i));
+        }
+        System.out.println(SEPARATOR);
     }
 
     private static void printGreeting(String banner) {
