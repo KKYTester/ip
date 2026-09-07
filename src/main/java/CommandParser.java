@@ -9,9 +9,6 @@ public class CommandParser {
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
     private static final String EVENT_COMMAND = "event";
-    private static final String DEADLINE_SEPARATOR = "\\s+/by\\s+";
-    private static final String EVENT_START_SEPARATOR = "\\s+/from\\s+";
-    private static final String EVENT_END_SEPARATOR = "\\s+/to\\s+";
 
     private final Command command;
     private final TaskList taskList;
@@ -37,11 +34,6 @@ public class CommandParser {
         String trimmedInput = userInput.trim();
         String[] commandParts = trimmedInput.split("\\s+", 2);
 
-        if (!isValidCommand(commandParts)) {
-            command.showInvalidCommand();
-            return false;
-        }
-
         if (trimmedInput.equalsIgnoreCase(EXIT_COMMAND)) {
             command.showFarewell();
             return true;
@@ -62,6 +54,11 @@ public class CommandParser {
             return false;
         }
 
+        if (!isValidTaskCommand(commandParts)) {
+            command.showInvalidCommand();
+            return false;
+        }
+
         Task newTask = createTask(commandParts);
         taskList.add(newTask);
         command.showTaskAdded(newTask, taskList.getTaskCount());
@@ -69,68 +66,31 @@ public class CommandParser {
     }
 
     /**
-     * Checks whether a command has all arguments required to execute safely.
+     * Checks whether a task-creation command contains valid input for its task type.
      *
      * @param commandParts Command word and its optional argument.
-     * @return {@code true} if the command has a recognized and valid structure.
+     * @return {@code true} if the command can be used to create a task.
      */
-    private boolean isValidCommand(String[] commandParts) {
-        String commandWord = commandParts[0];
-
-        if (commandWord.equalsIgnoreCase(EXIT_COMMAND)
-                || commandWord.equalsIgnoreCase(LIST_COMMAND)) {
-            return commandParts.length == 1;
-        }
-
-        if (commandWord.equalsIgnoreCase(MARK_COMMAND)
-                || commandWord.equalsIgnoreCase(UNMARK_COMMAND)) {
-            return true;
-        }
-
+    private boolean isValidTaskCommand(String[] commandParts) {
         if (commandParts.length < 2) {
             return false;
         }
 
+        String commandWord = commandParts[0];
         String taskArguments = commandParts[1];
         if (commandWord.equalsIgnoreCase(TODO_COMMAND)) {
-            return !taskArguments.isBlank();
+            return ToDo.isValidInput(taskArguments);
         }
 
         if (commandWord.equalsIgnoreCase(DEADLINE_COMMAND)) {
-            String[] deadlineParts = taskArguments.split(DEADLINE_SEPARATOR, 2);
-            return hasNonBlankParts(deadlineParts, 2);
+            return Deadline.isValidInput(taskArguments);
         }
 
         if (commandWord.equalsIgnoreCase(EVENT_COMMAND)) {
-            String[] eventStartParts = taskArguments.split(EVENT_START_SEPARATOR, 2);
-            if (!hasNonBlankParts(eventStartParts, 2)) {
-                return false;
-            }
-            String[] eventEndParts = eventStartParts[1].split(EVENT_END_SEPARATOR, 2);
-            return hasNonBlankParts(eventEndParts, 2);
+            return Event.isValidInput(taskArguments);
         }
 
         return false;
-    }
-
-    /**
-     * Reports whether an array has the expected number of non-blank parts.
-     *
-     * @param parts Text parts to check.
-     * @param expectedLength Required number of parts.
-     * @return {@code true} if every expected part contains text.
-     */
-    private boolean hasNonBlankParts(String[] parts, int expectedLength) {
-        if (parts.length != expectedLength) {
-            return false;
-        }
-
-        for (String part : parts) {
-            if (part.isBlank()) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -145,18 +105,15 @@ public class CommandParser {
         String taskArguments = commandParts[1];
 
         if (commandWord.equalsIgnoreCase(TODO_COMMAND)) {
-            return new ToDo(taskArguments);
+            return ToDo.createFromInput(taskArguments);
         }
 
         if (commandWord.equalsIgnoreCase(DEADLINE_COMMAND)) {
-            String[] deadlineParts = taskArguments.split(DEADLINE_SEPARATOR, 2);
-            return new Deadline(deadlineParts[0], deadlineParts[1]);
+            return Deadline.createFromInput(taskArguments);
         }
 
         if (commandWord.equalsIgnoreCase(EVENT_COMMAND)) {
-            String[] eventStartParts = taskArguments.split(EVENT_START_SEPARATOR, 2);
-            String[] eventEndParts = eventStartParts[1].split(EVENT_END_SEPARATOR, 2);
-            return new Event(eventStartParts[0], eventEndParts[0], eventEndParts[1]);
+            return Event.createFromInput(taskArguments);
         }
 
         throw new IllegalArgumentException("Command does not create a task");
