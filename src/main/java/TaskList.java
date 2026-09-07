@@ -12,10 +12,19 @@ public class TaskList {
     /**
      * Adds a task to the end of the list.
      *
-     * @param task Task text to store.
+     * @param newTask Task to store.
      */
-    public void add(String task) {
-        tasks.add(new Task(task));
+    public void add(Task newTask) {
+        tasks.add(newTask);
+    }
+
+    /**
+     * Returns the number of stored tasks.
+     *
+     * @return Number of tasks in the list.
+     */
+    public int getTaskCount() {
+        return tasks.size();
     }
 
     /**

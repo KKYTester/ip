@@ -48,6 +48,31 @@ public class Command {
     }
 
     /**
+     * Confirms that a task was added and displays the new task count.
+     *
+     * @param task Task that was added.
+     * @param taskCount Number of tasks after the addition.
+     */
+    public void showTaskAdded(Task task, int taskCount) {
+        String taskNoun = taskCount == 1 ? "task" : "tasks";
+
+        System.out.println(SEPARATOR);
+        System.out.println(" Got it. I've added this task:");
+        System.out.printf("   %s%n", task);
+        System.out.printf(" Now you have %d %s in the list.%n", taskCount, taskNoun);
+        System.out.println(SEPARATOR);
+    }
+
+    /**
+     * Explains that the entered command does not have a valid structure.
+     */
+    public void showInvalidCommand() {
+        System.out.println(SEPARATOR);
+        System.out.println(" Invalid command. Please check the task description and date/time fields.");
+        System.out.println(SEPARATOR);
+    }
+
+    /**
      * Displays all stored tasks with one-based numbering.
      *
      * @param tasks Tasks to display in input order.
