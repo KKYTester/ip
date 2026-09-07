@@ -37,17 +37,6 @@ public class Command {
     }
 
     /**
-     * Echoes a command between separators.
-     *
-     * @param command Command to echo.
-     */
-    public void echoCommand(String command) {
-        System.out.println(SEPARATOR);
-        System.out.println(command);
-        System.out.println(SEPARATOR);
-    }
-
-    /**
      * Confirms that a task was added and displays the new task count.
      *
      * @param task Task that was added.
