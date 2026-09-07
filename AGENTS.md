@@ -38,6 +38,13 @@ Do not add Java package declarations or move Java files into package directories
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Console UI testing
+
+After every code update:
+
+1. Review `test/ui-test-plan.md` and update it when the change adds, removes, or alters console commands, expected output, state transitions, or relevant test coverage. Do not change expected output merely to make a regression pass.
+2. Invoke the project-specific `test-ui` skill and run the applicable UI test cases. Do not consider the code update complete until the tests pass or the failure and its actual and expected outputs have been reported to the user.
+
 ## Git
 
 All commits and branch names in this project must follow the SE-EDU Git conventions.
