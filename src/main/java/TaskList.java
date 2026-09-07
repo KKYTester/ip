@@ -5,9 +5,9 @@ import java.util.List;
  * Stores tasks entered during the current application session.
  */
 public class TaskList {
-    private static final int EXPECTED_MAXIMUM_SIZE = 100;
+    private static final int INITIAL_CAPACITY = 100;
 
-    private final List<Task> tasks = new ArrayList<>(EXPECTED_MAXIMUM_SIZE);
+    private final List<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
 
     /**
      * Adds a task to the end of the list.
