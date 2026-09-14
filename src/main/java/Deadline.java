@@ -40,7 +40,7 @@ public class Deadline extends Task {
     static Deadline createFromInput(String taskInput) {
         String[] deadlineParts = splitInput(taskInput);
         if (!hasNonBlankParts(deadlineParts, EXPECTED_PART_COUNT)) {
-            throw new IllegalArgumentException("Invalid deadline input");
+            throw new IllegalArgumentException("Invalid deadline input. Format: deadline [description] /by [date]");
         }
         return new Deadline(deadlineParts[0], deadlineParts[1]);
     }
