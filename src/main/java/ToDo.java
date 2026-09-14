@@ -32,7 +32,7 @@ public class ToDo extends Task {
      */
     static ToDo createFromInput(String taskInput) {
         if (!isValidInput(taskInput)) {
-            throw new IllegalArgumentException("Invalid to-do input");
+            throw new IllegalArgumentException("Invalid to-do input. Format: todo [description]");
         }
         return new ToDo(taskInput);
     }

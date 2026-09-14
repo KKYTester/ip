@@ -5,7 +5,7 @@ import java.util.Scanner;
  * Handles command input and displays responses to the user.
  */
 public class Command {
-    private static final String SEPARATOR = "____________________________________________________________";
+    public static final String SEPARATOR = "____________________________________________________________";
 
     private final Scanner scanner;
 

@@ -45,7 +45,8 @@ public class Event extends Task {
     static Event createFromInput(String taskInput) {
         String[] eventParts = splitInput(taskInput);
         if (!hasNonBlankParts(eventParts, EXPECTED_EVENT_PART_COUNT)) {
-            throw new IllegalArgumentException("Invalid event input");
+            throw new IllegalArgumentException(
+                "Invalid event input. Format: event [description] /from [date] /to [date]");
         }
         return new Event(eventParts[0], eventParts[1], eventParts[2]);
     }
