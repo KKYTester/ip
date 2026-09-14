@@ -149,3 +149,80 @@ ____________________________________________________________
      Bye. Hope to see you again soon!
      ____________________________________________________________
      ```
+
+## TC-2: Invalid task input recovery
+
+- Aim: Verify malformed task commands are ignored and the application continues accepting input.
+- Inputs and expected outputs:
+
+  1. Input
+
+     ```text
+     todo
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid to-do input. Format: todo [description]
+     ____________________________________________________________
+     ```
+
+  2. Input
+
+     ```text
+     deadline return book
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid deadline input. Format: deadline [description] /by [date]
+     ____________________________________________________________
+     ```
+
+  3. Input
+
+     ```text
+     event project meeting /from Monday 2pm
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid event input. Format: event [description] /from [date] /to [date]
+     ____________________________________________________________
+     ```
+
+  4. Input
+
+     ```text
+     todo read book
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Got it. I've added this task:
+        [T][ ] read book
+      Now you have 1 task in the list.
+     ____________________________________________________________
+     ```
+
+  5. Input
+
+     ```text
+     bye
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Bye. Hope to see you again soon!
+     ____________________________________________________________
+     ```
