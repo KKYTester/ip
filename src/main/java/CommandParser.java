@@ -54,55 +54,29 @@ public class CommandParser {
             return false;
         }
 
-        if (!isValidTaskCommand(commandParts)) {
-            command.showInvalidCommand();
+        try {
+            Task newTask = createTask(commandParts);
+            taskList.add(newTask);
+            command.showTaskAdded(newTask, taskList.getTaskCount());
+        } catch (IllegalArgumentException exception) {
+            System.out.println(Command.SEPARATOR);
+            System.out.println(exception.getMessage());
+            System.out.println(Command.SEPARATOR);
             return false;
         }
-
-        Task newTask = createTask(commandParts);
-        taskList.add(newTask);
-        command.showTaskAdded(newTask, taskList.getTaskCount());
         return false;
     }
 
     /**
-     * Checks whether a task-creation command contains valid input for its task type.
+     * Attempts to create a task from the supplied command.
      *
-     * @param commandParts Command word and its optional argument.
-     * @return {@code true} if the command can be used to create a task.
-     */
-    private boolean isValidTaskCommand(String[] commandParts) {
-        if (commandParts.length < 2) {
-            return false;
-        }
-
-        String commandWord = commandParts[0];
-        String taskArguments = commandParts[1];
-        if (commandWord.equalsIgnoreCase(TODO_COMMAND)) {
-            return ToDo.isValidInput(taskArguments);
-        }
-
-        if (commandWord.equalsIgnoreCase(DEADLINE_COMMAND)) {
-            return Deadline.isValidInput(taskArguments);
-        }
-
-        if (commandWord.equalsIgnoreCase(EVENT_COMMAND)) {
-            return Event.isValidInput(taskArguments);
-        }
-
-        return false;
-    }
-
-    /**
-     * Creates a task from an already validated command.
-     *
-     * @param commandParts Command word and task arguments.
+     * @param commandParts Command word and its optional task arguments.
      * @return Task represented by the command.
-     * @throws IllegalArgumentException If the command is not a task command.
+     * @throws IllegalArgumentException If the command or task arguments are invalid.
      */
     private Task createTask(String[] commandParts) {
         String commandWord = commandParts[0];
-        String taskArguments = commandParts[1];
+        String taskArguments = commandParts.length < 2 ? null : commandParts[1];
 
         if (commandWord.equalsIgnoreCase(TODO_COMMAND)) {
             return ToDo.createFromInput(taskArguments);
@@ -116,7 +90,9 @@ public class CommandParser {
             return Event.createFromInput(taskArguments);
         }
 
-        throw new IllegalArgumentException("Command does not create a task");
+        throw new IllegalArgumentException(
+            "Command does not create a task." + System.lineSeparator() + 
+            "Valid tasks are: " + TODO_COMMAND + ", " + DEADLINE_COMMAND + ", " + EVENT_COMMAND);
     }
 
     /**
