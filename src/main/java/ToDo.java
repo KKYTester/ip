@@ -38,6 +38,16 @@ public class ToDo extends Task {
     }
 
     /**
+     * Returns this to-do in the format used for persistent storage.
+     *
+     * @return Save-file representation of this to-do.
+     */
+    @Override
+    public String toDataString() {
+        return "T | " + getDataStatus() + " | " + description;
+    }
+
+    /**
      * Returns the to-do description with its type and completion icons.
      *
      * @return Display-ready task text.

@@ -52,6 +52,16 @@ public class Event extends Task {
     }
 
     /**
+     * Returns this event in the format used for persistent storage.
+     *
+     * @return Save-file representation of this event.
+     */
+    @Override
+    public String toDataString() {
+        return "E | " + getDataStatus() + " | " + description + " | " + from + " | " + to;
+    }
+
+    /**
      * Splits raw event input into its description, start, and end values.
      *
      * @param taskInput Raw input following the event command word.

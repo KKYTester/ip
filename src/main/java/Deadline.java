@@ -46,6 +46,16 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns this deadline in the format used for persistent storage.
+     *
+     * @return Save-file representation of this deadline.
+     */
+    @Override
+    public String toDataString() {
+        return "D | " + getDataStatus() + " | " + description + " | " + by;
+    }
+
+    /**
      * Splits raw deadline input into its description and due date.
      *
      * @param taskInput Raw input following the deadline command word.

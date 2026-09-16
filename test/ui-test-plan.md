@@ -38,7 +38,7 @@ ____________________________________________________________
 
 ## TC-1: Baseline command workflow
 
-- Aim: Verify all currently supported commands in one stateful workflow: create a to-do, deadline, and event; list tasks; mark and unmark a task; and exit the application.
+- Aim: Verify all currently supported commands in one stateful workflow: create a to-do, deadline, and event; list tasks; mark and unmark a task; save each change; and exit the application.
 - Inputs and expected outputs:
 
   1. Input
@@ -149,6 +149,14 @@ ____________________________________________________________
      Bye. Hope to see you again soon!
      ____________________________________________________________
      ```
+
+- Expected save file after steps 1-3, 5, and 6: `data/potato.txt` exists and contains the complete current task list. After step 6, its exact contents are:
+
+  ```text
+  T | 0 | read book
+  D | 0 | return book | Sunday
+  E | 0 | project meeting | Monday 2pm | Monday 3pm
+  ```
 
 ## TC-2: Invalid task input recovery
 
