@@ -39,6 +39,7 @@ ____________________________________________________________
 ## TC-1: Baseline command workflow
 
 - Aim: Verify all currently supported commands in one stateful workflow: create a to-do, deadline, and event; list tasks; mark and unmark a task; save each change; and exit the application.
+- Setup: Ensure `data/potato.txt` does not exist before launching the application.
 - Inputs and expected outputs:
 
   1. Input
@@ -161,6 +162,7 @@ ____________________________________________________________
 ## TC-2: Invalid task input recovery
 
 - Aim: Verify malformed task commands are ignored and the application continues accepting input.
+- Setup: Ensure `data/potato.txt` does not exist before launching the application.
 - Inputs and expected outputs:
 
   1. Input
@@ -222,6 +224,50 @@ ____________________________________________________________
      ```
 
   5. Input
+
+     ```text
+     bye
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Bye. Hope to see you again soon!
+     ____________________________________________________________
+     ```
+
+## TC-3: Load tasks at startup
+
+- Aim: Verify the application loads all supported task types and their completion states from an existing save file.
+- Setup: Create `data/potato.txt` with these exact contents before launching the application:
+
+  ```text
+  T | 1 | read book
+  D | 0 | return book | Sunday
+  E | 1 | project meeting | Monday 2pm | Monday 3pm
+  ```
+
+- Inputs and expected outputs:
+
+  1. Input
+
+     ```text
+     list
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the tasks in your list:
+      1.[T][X] read book
+      2.[D][ ] return book (by: Sunday)
+      3.[E][X] project meeting (from: Monday 2pm to: Monday 3pm)
+     ____________________________________________________________
+     ```
+
+  2. Input
 
      ```text
      bye

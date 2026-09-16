@@ -21,6 +21,17 @@ public class TaskList {
     }
 
     /**
+     * Creates a task list containing tasks loaded from storage.
+     *
+     * @param storage Storage used to save later changes.
+     * @param initialTasks Tasks to place in the list at startup.
+     */
+    public TaskList(Storage storage, List<Task> initialTasks) {
+        this.storage = storage;
+        tasks.addAll(initialTasks);
+    }
+
+    /**
      * Adds a task to the end of the list.
      *
      * @param newTask Task to store.
