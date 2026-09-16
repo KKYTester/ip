@@ -26,7 +26,7 @@ public class Storage {
      * Loads tasks from the save file, or returns an empty list when the file does not exist.
      *
      * @return Tasks stored in the save file, in file order.
-     * @throws IOException If the save file cannot be read or contains invalid task data.
+     * @throws IOException If the save file cannot be read.
      */
     public List<Task> load() throws IOException {
         if (!Files.exists(filePath)) {
@@ -36,7 +36,13 @@ public class Storage {
         List<String> taskData = Files.readAllLines(filePath, StandardCharsets.UTF_8);
         List<Task> tasks = new ArrayList<>();
         for (int i = 0; i < taskData.size(); i++) {
-            tasks.add(parseTask(taskData.get(i), i + 1));
+            int lineNumber = i + 1;
+            String taskDataLine = taskData.get(i);
+            try {
+                tasks.add(parseTask(taskDataLine, lineNumber));
+            } catch (IOException exception) {
+                showMalformedLineWarning(lineNumber, taskDataLine);
+            }
         }
         return tasks;
     }
@@ -110,5 +116,16 @@ public class Storage {
      */
     private IOException createInvalidDataException(int lineNumber) {
         return new IOException("Invalid task data on line " + lineNumber + " of " + filePath);
+    }
+
+    /**
+     * Reports a malformed save-file line without changing its content.
+     *
+     * @param lineNumber One-based number of the malformed line.
+     * @param taskData Original content of the malformed line.
+     */
+    private void showMalformedLineWarning(int lineNumber, String taskData) {
+        System.out.println("Warning: skipped malformed save-file line " + lineNumber + ":");
+        System.out.println(taskData);
     }
 }
