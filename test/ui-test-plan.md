@@ -38,7 +38,7 @@ ____________________________________________________________
 
 ## TC-1: Baseline command workflow
 
-- Aim: Verify all currently supported commands in one stateful workflow: create a to-do, deadline, and event; list tasks; mark and unmark a task; and exit the application.
+- Aim: Verify all currently supported commands in one stateful workflow: create a to-do, deadline, and event; list tasks; mark, unmark, and delete a task; and exit the application.
 - Inputs and expected outputs:
 
   1. Input
@@ -137,6 +137,38 @@ ____________________________________________________________
      ```
 
   7. Input
+
+     ```text
+     delete 2
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Noted. I've removed this task:
+        [D][ ] return book (by: Sunday)
+      Now you have 2 tasks in the list.
+     ____________________________________________________________
+     ```
+
+  8. Input
+
+     ```text
+     list
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the tasks in your list:
+      1.[T][ ] read book
+      2.[E][ ] project meeting (from: Monday 2pm to: Monday 3pm)
+     ____________________________________________________________
+     ```
+
+  9. Input
 
      ```text
      bye

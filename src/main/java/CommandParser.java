@@ -4,6 +4,7 @@
 public class CommandParser {
     private static final String UNMARK_COMMAND = "unmark";
     private static final String MARK_COMMAND = "mark";
+    private static final String DELETE_COMMAND = "delete";
     private static final String LIST_COMMAND = "list";
     private static final String EXIT_COMMAND = "bye";
     private static final String TODO_COMMAND = "todo";
@@ -51,6 +52,11 @@ public class CommandParser {
 
         if (commandParts[0].equalsIgnoreCase(UNMARK_COMMAND)) {
             unmarkTask(commandParts);
+            return false;
+        }
+
+        if (commandParts[0].equalsIgnoreCase(DELETE_COMMAND)) {
+            deleteTask(commandParts);
             return false;
         }
 
@@ -130,6 +136,26 @@ public class CommandParser {
             int taskNumber = Integer.parseInt(commandParts[1]);
             Task unmarkedTask = taskList.markAsNotDone(taskNumber);
             command.showTaskMarkedAsNotDone(unmarkedTask);
+        } catch (NumberFormatException | IndexOutOfBoundsException exception) {
+            command.showInvalidTaskNumber();
+        }
+    }
+
+    /**
+     * Deletes the task selected by a {@code delete TASK_NUMBER} command.
+     *
+     * @param commandParts Command word and its optional argument.
+     */
+    private void deleteTask(String[] commandParts) {
+        if (commandParts.length < 2) {
+            command.showInvalidTaskNumber();
+            return;
+        }
+
+        try {
+            int taskNumber = Integer.parseInt(commandParts[1]);
+            Task deletedTask = taskList.delete(taskNumber);
+            command.showTaskDeleted(deletedTask, taskList.getTaskCount());
         } catch (NumberFormatException | IndexOutOfBoundsException exception) {
             command.showInvalidTaskNumber();
         }
