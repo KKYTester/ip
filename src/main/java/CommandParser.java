@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Parses user input and executes the corresponding application action.
  */
@@ -30,8 +32,9 @@ public class CommandParser {
      *
      * @param userInput Text entered by the user.
      * @return {@code true} if the application should exit; otherwise {@code false}.
+     * @throws IOException If the task save file cannot be written.
      */
-    public boolean execute(String userInput) {
+    public boolean execute(String userInput) throws IOException {
         String trimmedInput = userInput.trim();
         String[] commandParts = trimmedInput.split("\\s+", 2);
 
@@ -105,8 +108,9 @@ public class CommandParser {
      * Marks the task selected by a {@code mark TASK_NUMBER} command.
      *
      * @param commandParts Command word and its optional argument.
+     * @throws IOException If the task save file cannot be written.
      */
-    private void markTask(String[] commandParts) {
+    private void markTask(String[] commandParts) throws IOException {
         if (commandParts.length < 2) {
             command.showInvalidTaskNumber();
             return;
@@ -125,8 +129,9 @@ public class CommandParser {
      * Reverses completion for the task selected by an {@code unmark TASK_NUMBER} command.
      *
      * @param commandParts Command word and its optional argument.
+     * @throws IOException If the task save file cannot be written.
      */
-    private void unmarkTask(String[] commandParts) {
+    private void unmarkTask(String[] commandParts) throws IOException {
         if (commandParts.length < 2) {
             command.showInvalidTaskNumber();
             return;

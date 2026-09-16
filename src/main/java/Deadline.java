@@ -2,6 +2,8 @@
  * Represents a task that must be completed by a specified date or time.
  */
 public class Deadline extends Task {
+    static final int DATA_FIELD_COUNT = 4;
+
     private static final String DEADLINE_SYMBOL = "[D]";
     private static final String DEADLINE_SEPARATOR = "\\s+/by\\s+";
     private static final int EXPECTED_PART_COUNT = 2;
@@ -43,6 +45,16 @@ public class Deadline extends Task {
             throw new IllegalArgumentException("Invalid deadline input. Format: deadline [description] /by [date]");
         }
         return new Deadline(deadlineParts[0], deadlineParts[1]);
+    }
+
+    /**
+     * Returns this deadline in the format used for persistent storage.
+     *
+     * @return Save-file representation of this deadline.
+     */
+    @Override
+    public String toDataString() {
+        return "D | " + getDataStatus() + " | " + description + " | " + by;
     }
 
     /**

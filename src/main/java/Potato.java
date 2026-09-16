@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Scanner;
 
 /**
@@ -8,8 +10,9 @@ public class Potato {
      * Starts the application and processes commands until the user exits.
      *
      * @param args Command-line arguments, which are not used.
+     * @throws IOException If the task save file cannot be read or written.
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String banner = " ____   ___    _____     _     _____   ___\n"
                 + "|  _ \\ / _ \\  |_   _|   / \\   |_   _| / _ \\\n"
                 + "| |_) | | | |   | |    / _ \\    | |  | | | |\n"
@@ -17,7 +20,8 @@ public class Potato {
                 + "|_|    \\___/    |_|  /_/   \\_\\  |_|   \\___/\n";
 
         Command command = new Command(new Scanner(System.in));
-        TaskList taskList = new TaskList();
+        Storage storage = new Storage(Path.of("data", "potato.txt"));
+        TaskList taskList = new TaskList(storage, storage.load());
         CommandParser commandParser = new CommandParser(command, taskList);
 
         command.showGreeting(banner);

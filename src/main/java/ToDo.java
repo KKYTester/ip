@@ -2,6 +2,8 @@
  * Represents a task without an attached date or time.
  */
 public class ToDo extends Task {
+    static final int DATA_FIELD_COUNT = 3;
+
     private static final String TODO_SYMBOL = "[T]";
 
     /**
@@ -35,6 +37,16 @@ public class ToDo extends Task {
             throw new IllegalArgumentException("Invalid to-do input. Format: todo [description]");
         }
         return new ToDo(taskInput);
+    }
+
+    /**
+     * Returns this to-do in the format used for persistent storage.
+     *
+     * @return Save-file representation of this to-do.
+     */
+    @Override
+    public String toDataString() {
+        return "T | " + getDataStatus() + " | " + description;
     }
 
     /**

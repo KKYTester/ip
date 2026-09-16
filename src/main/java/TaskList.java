@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,14 +9,37 @@ public class TaskList {
     private static final int INITIAL_CAPACITY = 100;
 
     private final ArrayList<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
+    private final Storage storage;
+
+    /**
+     * Creates an empty task list that saves changes using the given storage.
+     *
+     * @param storage Storage used to save tasks.
+     */
+    public TaskList(Storage storage) {
+        this.storage = storage;
+    }
+
+    /**
+     * Creates a task list containing tasks loaded from storage.
+     *
+     * @param storage Storage used to save later changes.
+     * @param initialTasks Tasks to place in the list at startup.
+     */
+    public TaskList(Storage storage, List<Task> initialTasks) {
+        this.storage = storage;
+        tasks.addAll(initialTasks);
+    }
 
     /**
      * Adds a task to the end of the list.
      *
      * @param newTask Task to store.
+     * @throws IOException If the task save file cannot be written.
      */
-    public void add(Task newTask) {
+    public void add(Task newTask) throws IOException {
         tasks.add(newTask);
+        storage.save(tasks);
     }
 
     /**
@@ -45,10 +69,12 @@ public class TaskList {
      * @param taskNumber One-based task number shown by the {@code list} command.
      * @return Task that was marked as done.
      * @throws IndexOutOfBoundsException If the task number is not in the list.
+     * @throws IOException If the task save file cannot be written.
      */
-    public Task markAsDone(int taskNumber) {
+    public Task markAsDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsDone();
+        storage.save(tasks);
         return task;
     }
 
@@ -58,10 +84,12 @@ public class TaskList {
      * @param taskNumber One-based task number shown by the {@code list} command.
      * @return Task that was marked as not done.
      * @throws IndexOutOfBoundsException If the task number is not in the list.
+     * @throws IOException If the task save file cannot be written.
      */
-    public Task markAsNotDone(int taskNumber) {
+    public Task markAsNotDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsNotDone();
+        storage.save(tasks);
         return task;
     }
 

@@ -1,7 +1,7 @@
 /**
  * Represents a task and its completion state.
  */
-public class Task {
+public abstract class Task {
     protected String description;
     protected boolean isDone;
 
@@ -37,6 +37,22 @@ public class Task {
     public String getStatusIcon() {
         return isDone ? "X" : " ";
     }
+
+    /**
+     * Returns the numeric completion state used in the save file.
+     *
+     * @return {@code "1"} if done; otherwise {@code "0"}.
+     */
+    protected String getDataStatus() {
+        return isDone ? "1" : "0";
+    }
+
+    /**
+     * Returns this task in the format used for persistent storage.
+     *
+     * @return Save-file representation of this task.
+     */
+    public abstract String toDataString();
 
     /**
      * Returns the task description with its completion icon.
