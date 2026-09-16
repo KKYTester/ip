@@ -53,6 +53,22 @@ public class Command {
     }
 
     /**
+     * Confirms that a task was deleted and displays the remaining task count.
+     *
+     * @param task Task that was deleted.
+     * @param taskCount Number of tasks after the deletion.
+     */
+    public void showTaskDeleted(Task task, int taskCount) {
+        String taskNoun = taskCount == 1 ? "task" : "tasks";
+
+        System.out.println(SEPARATOR);
+        System.out.println(" Noted. I've removed this task:");
+        System.out.printf("   %s%n", task);
+        System.out.printf(" Now you have %d %s in the list.%n", taskCount, taskNoun);
+        System.out.println(SEPARATOR);
+    }
+
+    /**
      * Explains that the entered command does not have a valid structure.
      */
     public void showInvalidCommand() {
@@ -103,7 +119,7 @@ public class Command {
     }
 
     /**
-     * Explains that a mark or unmark command did not identify a task in the list.
+     * Explains that a task command did not identify a task in the list.
      */
     public void showInvalidTaskNumber() {
         System.out.println(SEPARATOR);

@@ -7,7 +7,7 @@ import java.util.List;
 public class TaskList {
     private static final int INITIAL_CAPACITY = 100;
 
-    private final List<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
+    private final ArrayList<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
 
     /**
      * Adds a task to the end of the list.
@@ -25,6 +25,18 @@ public class TaskList {
      */
     public int getTaskCount() {
         return tasks.size();
+    }
+
+    /**
+     * Deletes the task at the given one-based position.
+     *
+     * @param taskNumber One-based task number shown by the {@code list} command.
+     * @return Task that was deleted.
+     * @throws IndexOutOfBoundsException If the task number is not in the list.
+     */
+    public Task delete(int taskNumber) {
+        int taskIndex = taskNumber - 1;
+        return tasks.remove(taskIndex);
     }
 
     /**
