@@ -57,10 +57,13 @@ public class TaskList {
      * @param taskNumber One-based task number shown by the {@code list} command.
      * @return Task that was deleted.
      * @throws IndexOutOfBoundsException If the task number is not in the list.
+     * @throws IOException If the task save file cannot be written.
      */
-    public Task delete(int taskNumber) {
+    public Task delete(int taskNumber) throws IOException {
         int taskIndex = taskNumber - 1;
-        return tasks.remove(taskIndex);
+        Task taskRemoved = tasks.remove(taskIndex);
+        storage.save(tasks);
+        return taskRemoved;
     }
 
     /**

@@ -150,8 +150,9 @@ public class CommandParser {
      * Deletes the task selected by a {@code delete TASK_NUMBER} command.
      *
      * @param commandParts Command word and its optional argument.
+     * @throws IOException If the task save file cannot be written.
      */
-    private void deleteTask(String[] commandParts) {
+    private void deleteTask(String[] commandParts) throws IOException {
         if (commandParts.length < 2) {
             command.showInvalidTaskNumber();
             return;

@@ -191,6 +191,13 @@ ____________________________________________________________
   E | 0 | project meeting | Monday 2pm | Monday 3pm
   ```
 
+- Expected save file after step 7: `data/potato.txt` no longer contains the deleted deadline. Its exact contents are:
+
+  ```text
+  T | 0 | read book
+  E | 0 | project meeting | Monday 2pm | Monday 3pm
+  ```
+
 ## TC-2: Invalid task input recovery
 
 - Aim: Verify malformed task commands are ignored and the application continues accepting input.
