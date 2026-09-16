@@ -1,3 +1,5 @@
+package seedu.potato;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;

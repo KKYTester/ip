@@ -1,3 +1,5 @@
+package seedu.potato;
+
 /**
  * Represents a task that occurs between specified start and end times.
  */

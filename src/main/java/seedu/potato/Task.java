@@ -1,3 +1,5 @@
+package seedu.potato;
+
 /**
  * Represents a task and its completion state.
  */

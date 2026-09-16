@@ -26,13 +26,11 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 ## Java coding standard
 
-All Java source and test code in this project must follow the SE-EDU basic and intermediate Java coding standard, except for the course-level exception below.
+All Java source and test code in this project must follow the SE-EDU basic and intermediate Java coding standard.
 
 Before creating, modifying, refactoring, or reviewing Java code, agents must use the project-specific `seedu-java-coding-standard` skill and read its required reference completely. Apply the standard to all new Java code and to every line materially changed by the task. Do not reformat unrelated code solely for style unless the user requests a broader cleanup.
 
-### Current course-level exception
-
-Do not add Java package declarations or move Java files into package directories until the user says that packages have been introduced in the course. Keep Java files directly under `src/main/java` in the unnamed package.
+Packages have been introduced in the course. Place every Java class in an appropriate package and keep its source file in the matching package directory.
 
 ## Java version:
 

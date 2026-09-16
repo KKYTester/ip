@@ -7,7 +7,7 @@
 - Setup command (PowerShell):
 
   ```powershell
-  $uiTestSources = Get-ChildItem -Path "src/main/java" -Filter "*.java"
+  $uiTestSources = Get-ChildItem -Path "src/main/java" -Filter "*.java" -Recurse
   New-Item -ItemType Directory -Force -Path "_temp/ui-test-classes" | Out-Null
   javac -d "_temp/ui-test-classes" $uiTestSources.FullName
   ```
@@ -15,7 +15,7 @@
 - Launch command (PowerShell):
 
   ```powershell
-  java -cp "_temp/ui-test-classes" Potato
+  java -cp "_temp/ui-test-classes" seedu.potato.Potato
   ```
 
 - Comparison: exact text after normalizing `CRLF` and `LF` line endings; terminal input echo is excluded.
