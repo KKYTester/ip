@@ -2,6 +2,8 @@
  * Represents a task that occurs between specified start and end times.
  */
 public class Event extends Task {
+    static final int DATA_FIELD_COUNT = 5;
+
     private static final String EVENT_SYMBOL = "[E]";
     private static final String EVENT_START_SEPARATOR = "\\s+/from\\s+";
     private static final String EVENT_END_SEPARATOR = "\\s+/to\\s+";

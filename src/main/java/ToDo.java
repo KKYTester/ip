@@ -2,6 +2,8 @@
  * Represents a task without an attached date or time.
  */
 public class ToDo extends Task {
+    static final int DATA_FIELD_COUNT = 3;
+
     private static final String TODO_SYMBOL = "[T]";
 
     /**

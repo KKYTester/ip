@@ -10,9 +10,6 @@ import java.util.List;
  */
 public class Storage {
     private static final String FIELD_SEPARATOR = "\\s*\\|\\s*";
-    private static final int TODO_FIELD_COUNT = 3;
-    private static final int DEADLINE_FIELD_COUNT = 4;
-    private static final int EVENT_FIELD_COUNT = 5;
 
     private final Path filePath;
 
@@ -76,19 +73,19 @@ public class Storage {
         Task task;
         switch (fields[0]) {
             case "T":
-                if (fields.length != TODO_FIELD_COUNT) {
+                if (fields.length != ToDo.DATA_FIELD_COUNT) {
                     throw createInvalidDataException(lineNumber);
                 }
                 task = new ToDo(fields[2]);
                 break;
             case "D":
-                if (fields.length != DEADLINE_FIELD_COUNT) {
+                if (fields.length != Deadline.DATA_FIELD_COUNT) {
                     throw createInvalidDataException(lineNumber);
                 }
                 task = new Deadline(fields[2], fields[3]);
                 break;
             case "E":
-                if (fields.length != EVENT_FIELD_COUNT) {
+                if (fields.length != Event.DATA_FIELD_COUNT) {
                     throw createInvalidDataException(lineNumber);
                 }
                 task = new Event(fields[2], fields[3], fields[4]);

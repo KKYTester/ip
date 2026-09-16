@@ -2,6 +2,8 @@
  * Represents a task that must be completed by a specified date or time.
  */
 public class Deadline extends Task {
+    static final int DATA_FIELD_COUNT = 4;
+
     private static final String DEADLINE_SYMBOL = "[D]";
     private static final String DEADLINE_SEPARATOR = "\\s+/by\\s+";
     private static final int EXPECTED_PART_COUNT = 2;
