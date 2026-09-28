@@ -228,7 +228,7 @@ ____________________________________________________________
 
      ```text
      ____________________________________________________________
-     Invalid deadline input. Format: deadline [description] /by [date]
+     Invalid deadline input. Format: deadline [description] /by [date] [optional time]
      ____________________________________________________________
      ```
 
@@ -242,7 +242,7 @@ ____________________________________________________________
 
      ```text
      ____________________________________________________________
-     Invalid event input. Format: event [description] /from [date] /to [date]
+     Invalid event input. Format: event [description] /from [date] [optional time] /to [date] [optional time]
      ____________________________________________________________
      ```
 
@@ -256,8 +256,8 @@ ____________________________________________________________
 
      ```text
      ____________________________________________________________
-     Invalid deadline input. Format: deadline [description] /by [date]
-     [date formats: DD-MM-YYYY or DD/MM/YYYY]
+     Invalid deadline input. Format: deadline [description] /by [date] [optional time]
+     [date formats: DD-MM-YYYY or DD/MM/YYYY; optional time format: HH:mm]
      ____________________________________________________________
      ```
 
@@ -271,8 +271,8 @@ ____________________________________________________________
 
      ```text
      ____________________________________________________________
-     Invalid event input. Format: event [description] /from [date] /to [date]
-     [date formats: DD-MM-YYYY or DD/MM/YYYY]
+     Invalid event input. Format: event [description] /from [date] [optional time] /to [date] [optional time]
+     [date formats: DD-MM-YYYY or DD/MM/YYYY; optional time format: HH:mm]
      ____________________________________________________________
      ```
 
@@ -606,4 +606,107 @@ ____________________________________________________________
   T | 0 | read project book
   D | 0 | return book | 31-10-2026
   E | 1 | project meeting | 01-11-2026 | 02-11-2026
+  ```
+
+## TC-7: Optional deadline and event times
+
+- Aim: Verify times may appear to the right of date fields, use 24-hour `HH:mm`, persist across restarts,
+  and remain independently optional for event dates.
+- Setup: Ensure `data/potato.txt` does not exist before launching the application.
+- Inputs and expected outputs:
+
+  1. Input
+
+     ```text
+     deadline submit report /by 15/11/2026 23:59
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Got it. I've added this task:
+        [D][ ] submit report (by: 15 Nov 2026 23:59)
+      Now you have 1 task in the list.
+     ____________________________________________________________
+     ```
+
+  2. Input
+
+     ```text
+     event project meeting /from 01-11-2026 09:00 /to 01-11-2026 10:30
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Got it. I've added this task:
+        [E][ ] project meeting (from: 01 Nov 2026 09:00 to: 01 Nov 2026 10:30)
+      Now you have 2 tasks in the list.
+     ____________________________________________________________
+     ```
+
+  3. Input
+
+     ```text
+     event submission window /from 10-12-2026 /to 12-12-2026 18:00
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Got it. I've added this task:
+        [E][ ] submission window (from: 10 Dec 2026 to: 12 Dec 2026 18:00)
+      Now you have 3 tasks in the list.
+     ____________________________________________________________
+     ```
+
+  4. Input
+
+     ```text
+     deadline invalid time /by 15-11-2026 24:00
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid deadline input. Format: deadline [description] /by [date] [optional time]
+     [date formats: DD-MM-YYYY or DD/MM/YYYY; optional time format: HH:mm]
+     ____________________________________________________________
+     ```
+
+  5. Input
+
+     ```text
+     bye
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Bye. Hope to see you again soon!
+     ____________________________________________________________
+     ```
+
+- Expected save file after steps 1-4:
+
+  ```text
+  D | 0 | submit report | 15-11-2026 23:59
+  E | 0 | project meeting | 01-11-2026 09:00 | 01-11-2026 10:30
+  E | 0 | submission window | 10-12-2026 | 12-12-2026 18:00
+  ```
+
+- Restart Potato without changing the save file and enter `list` followed by `bye`. The list output must be:
+
+  ```text
+  ____________________________________________________________
+   Here are the tasks in your list:
+   1.[D][ ] submit report (by: 15 Nov 2026 23:59)
+   2.[E][ ] project meeting (from: 01 Nov 2026 09:00 to: 01 Nov 2026 10:30)
+   3.[E][ ] submission window (from: 10 Dec 2026 to: 12 Dec 2026 18:00)
+  ____________________________________________________________
   ```

@@ -1,6 +1,7 @@
 package seedu.potato;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -13,17 +14,17 @@ public class Deadline extends Task {
     private static final String DEADLINE_SEPARATOR = "\\s+/by\\s+";
     private static final int EXPECTED_PART_COUNT = 2;
     private static final String INVALID_INPUT_MESSAGE =
-            "Invalid deadline input. Format: deadline [description] /by [date]";
+            "Invalid deadline input. Format: deadline [description] /by [date] [optional time]";
 
-    private final LocalDate by;
+    private final LocalDateTime by;
 
     /**
      * Creates an incomplete deadline with the given description and due date.
      *
      * @param description Description of the task.
-     * @param by Date by which the task must be completed.
+     * @param by Date and optional time by which the task must be completed.
      */
-    public Deadline(String description, LocalDate by) {
+    public Deadline(String description, LocalDateTime by) {
         super(description);
         this.by = by;
     }
@@ -41,7 +42,7 @@ public class Deadline extends Task {
         }
 
         try {
-            DateParser.parse(deadlineParts[1].trim());
+            DateParser.parseDateTime(deadlineParts[1].trim());
             return true;
         } catch (DateTimeParseException exception) {
             return false;
@@ -62,7 +63,7 @@ public class Deadline extends Task {
         }
 
         try {
-            LocalDate by = DateParser.parse(deadlineParts[1].trim());
+            LocalDateTime by = DateParser.parseDateTime(deadlineParts[1].trim());
             return new Deadline(deadlineParts[0], by);
         } catch (DateTimeParseException exception) {
             throw new IllegalArgumentException(INVALID_INPUT_MESSAGE + System.lineSeparator()
@@ -88,7 +89,7 @@ public class Deadline extends Task {
      */
     @Override
     public boolean containsDate(LocalDate date) {
-        return by.equals(date);
+        return by.toLocalDate().equals(date);
     }
 
     /**

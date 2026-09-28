@@ -24,6 +24,7 @@ Potato saves every change automatically and reloads your tasks the next time it 
 
 - Words in `UPPER_CASE` are parameters that you must replace with your own values.
 - Dates must use `DD-MM-YYYY` or `DD/MM/YYYY`, for example `31-10-2026` or `31/10/2026`.
+- Optional times must appear after their date and use 24-hour `HH:mm`, for example `18:30`.
 - `TASK_NUMBER` is the positive integer shown beside a task by the `list` command.
 - Command words are not case-sensitive. Enter `/by`, `/from`, and `/to` exactly as shown in the command formats.
 - Descriptions are stored exactly as entered, and description searches are case-sensitive.
@@ -48,30 +49,32 @@ Examples:
 
 Adds a task that must be completed by a particular date.
 
-Format: `deadline DESCRIPTION /by DATE`
+Format: `deadline DESCRIPTION /by DATE [TIME]`
 
 - `DESCRIPTION` and `DATE` must not be blank.
 - `DATE` must be a valid calendar date in one of Potato's supported date formats.
-- Potato displays saved dates as `DD MMM YYYY`, such as `31 Oct 2026`.
+- `TIME` is optional. When provided, it must use the 24-hour `HH:mm` format.
+- Potato displays saved dates as `DD MMM YYYY` and appends the time when provided.
 
 Examples:
 
 - `deadline return book /by 31-10-2026` adds a deadline due on 31 October 2026.
-- `deadline submit report /by 15/11/2026` adds a deadline due on 15 November 2026.
+- `deadline submit report /by 15/11/2026 23:59` adds a deadline due at 23:59 on 15 November 2026.
 
 ### Adding an event: `event`
 
 Adds a task with a start date and an end date.
 
-Format: `event DESCRIPTION /from START_DATE /to END_DATE`
+Format: `event DESCRIPTION /from START_DATE [START_TIME] /to END_DATE [END_TIME]`
 
 - `DESCRIPTION`, `START_DATE`, and `END_DATE` must not be blank.
 - Both dates must be valid calendar dates in one of Potato's supported date formats.
-- Potato displays saved dates as `DD MMM YYYY`, such as `01 Nov 2026`.
+- `START_TIME` and `END_TIME` are independently optional and must use 24-hour `HH:mm` when provided.
+- Potato displays each saved date as `DD MMM YYYY` and appends its time when provided.
 
 Examples:
 
-- `event project meeting /from 01/11/2026 /to 02/11/2026` adds a two-day project meeting.
+- `event project meeting /from 01/11/2026 09:00 /to 02/11/2026 17:30` adds a timed project meeting.
 - `event study break /from 10-12-2026 /to 12-12-2026` adds an event from 10 to 12 December 2026.
 
 ### Listing all tasks: `list`

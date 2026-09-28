@@ -1,6 +1,7 @@
 package seedu.potato;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 
 /**
@@ -15,19 +16,20 @@ public class Event extends Task {
     private static final int EXPECTED_EVENT_PART_COUNT = 3;
     private static final int EXPECTED_SEPARATOR_PART_COUNT = 2;
     private static final String INVALID_INPUT_MESSAGE =
-            "Invalid event input. Format: event [description] /from [date] /to [date]";
+            "Invalid event input. Format: event [description] /from [date] [optional time] "
+                    + "/to [date] [optional time]";
 
-    private final LocalDate from;
-    private final LocalDate to;
+    private final LocalDateTime from;
+    private final LocalDateTime to;
 
     /**
      * Creates an incomplete event with the given description and time range.
      *
      * @param description Description of the task.
-     * @param from Date on which the event starts.
-     * @param to Date on which the event ends.
+     * @param from Date and optional time at which the event starts.
+     * @param to Date and optional time at which the event ends.
      */
-    public Event(String description, LocalDate from, LocalDate to) {
+    public Event(String description, LocalDateTime from, LocalDateTime to) {
         super(description);
         this.from = from;
         this.to = to;
@@ -46,8 +48,8 @@ public class Event extends Task {
         }
 
         try {
-            DateParser.parse(eventParts[1].trim());
-            DateParser.parse(eventParts[2].trim());
+            DateParser.parseDateTime(eventParts[1].trim());
+            DateParser.parseDateTime(eventParts[2].trim());
             return true;
         } catch (DateTimeParseException exception) {
             return false;
@@ -68,8 +70,8 @@ public class Event extends Task {
         }
 
         try {
-            LocalDate from = DateParser.parse(eventParts[1].trim());
-            LocalDate to = DateParser.parse(eventParts[2].trim());
+            LocalDateTime from = DateParser.parseDateTime(eventParts[1].trim());
+            LocalDateTime to = DateParser.parseDateTime(eventParts[2].trim());
             return new Event(eventParts[0], from, to);
         } catch (DateTimeParseException exception) {
             throw new IllegalArgumentException(INVALID_INPUT_MESSAGE + System.lineSeparator()
@@ -96,7 +98,7 @@ public class Event extends Task {
      */
     @Override
     public boolean containsDate(LocalDate date) {
-        return from.equals(date) || to.equals(date);
+        return from.toLocalDate().equals(date) || to.toLocalDate().equals(date);
     }
 
     /**
