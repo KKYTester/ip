@@ -1,6 +1,8 @@
 package seedu.potato;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,6 +107,40 @@ public class TaskList {
      */
     public List<Task> getTasks() {
         return List.copyOf(tasks);
+    }
+
+    /**
+     * Finds tasks whose descriptions contain the search text or whose stored dates match it.
+     * A date match is attempted only when the search text uses a supported date format.
+     *
+     * @param searchText Text or date to find.
+     * @return Temporary list of matching tasks in their original order.
+     */
+    public List<Task> find(String searchText) {
+        List<Task> foundTasks = new ArrayList<>();
+        LocalDate searchDate = parseSearchDate(searchText);
+
+        for (Task task : tasks) {
+            if (task.containsDescription(searchText)
+                    || searchDate != null && task.containsDate(searchDate)) {
+                foundTasks.add(task);
+            }
+        }
+        return foundTasks;
+    }
+
+    /**
+     * Parses a supported search date, or returns {@code null} when the search text is not a valid date.
+     *
+     * @param searchText Potential date text.
+     * @return Parsed date, or {@code null} for a non-date search.
+     */
+    private LocalDate parseSearchDate(String searchText) {
+        try {
+            return DateParser.parse(searchText);
+        } catch (DateTimeParseException exception) {
+            return null;
+        }
     }
 
     /**

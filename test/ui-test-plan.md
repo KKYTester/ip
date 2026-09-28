@@ -494,3 +494,116 @@ ____________________________________________________________
      Bye. Hope to see you again soon!
      ____________________________________________________________
      ```
+
+## TC-6: Find tasks by description and date
+
+- Aim: Verify `find` creates and prints a temporary list of description matches and date matches without changing the stored task list.
+- Setup: Create `data/potato.txt` with these exact contents before launching the application:
+
+  ```text
+  T | 0 | read project book
+  D | 0 | return book | 31-10-2026
+  E | 1 | project meeting | 01-11-2026 | 02-11-2026
+  ```
+
+- Inputs and expected outputs:
+
+  1. Input
+
+     ```text
+     find project
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the matching tasks in your list:
+      1.[T][ ] read project book
+      2.[E][X] project meeting (from: 01 Nov 2026 to: 02 Nov 2026)
+     ____________________________________________________________
+     ```
+
+  2. Input
+
+     ```text
+     find 31-10-2026
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the matching tasks in your list:
+      1.[D][ ] return book (by: 31 Oct 2026)
+     ____________________________________________________________
+     ```
+
+  3. Input
+
+     ```text
+     find 02/11/2026
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the matching tasks in your list:
+      1.[E][X] project meeting (from: 01 Nov 2026 to: 02 Nov 2026)
+     ____________________________________________________________
+     ```
+
+  4. Input
+
+     ```text
+     find holiday
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the matching tasks in your list:
+      [No matching tasks found]
+     ____________________________________________________________
+     ```
+
+  5. Input
+
+     ```text
+     list
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+      Here are the tasks in your list:
+      1.[T][ ] read project book
+      2.[D][ ] return book (by: 31 Oct 2026)
+      3.[E][X] project meeting (from: 01 Nov 2026 to: 02 Nov 2026)
+     ____________________________________________________________
+     ```
+
+  6. Input
+
+     ```text
+     bye
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Bye. Hope to see you again soon!
+     ____________________________________________________________
+     ```
+
+- Expected save file after all steps: `data/potato.txt` remains unchanged:
+
+  ```text
+  T | 0 | read project book
+  D | 0 | return book | 31-10-2026
+  E | 1 | project meeting | 01-11-2026 | 02-11-2026
+  ```
