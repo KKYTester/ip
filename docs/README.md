@@ -4,6 +4,22 @@ Potato is a command-line task manager that helps you keep track of to-dos, deadl
 
 Potato saves every change automatically and reloads your tasks the next time it starts. In task listings, `[T]`, `[D]`, and `[E]` identify to-dos, deadlines, and events respectively, while `[X]` marks a completed task and `[ ]` marks an incomplete task.
 
+## Table of contents
+
+- [Command format conventions](#command-format-conventions)
+- [Features](#features)
+  - [Adding a to-do: `todo`](#adding-a-to-do-todo)
+  - [Adding a deadline: `deadline`](#adding-a-deadline-deadline)
+  - [Adding an event: `event`](#adding-an-event-event)
+  - [Listing all tasks: `list`](#listing-all-tasks-list)
+  - [Finding tasks: `find`](#finding-tasks-find)
+  - [Marking a task as done: `mark`](#marking-a-task-as-done-mark)
+  - [Marking a task as not done: `unmark`](#marking-a-task-as-not-done-unmark)
+  - [Deleting a task: `delete`](#deleting-a-task-delete)
+  - [Exiting Potato: `bye`](#exiting-potato-bye)
+  - [Saving the data](#saving-the-data)
+  - [Editing the data file](#editing-the-data-file)
+
 ## Command format conventions
 
 - Words in `UPPER_CASE` are parameters that you must replace with your own values.
