@@ -61,7 +61,7 @@ ____________________________________________________________
   2. Input
 
      ```text
-     deadline return book /by Sunday
+     deadline return book /by 31-10-2026
      ```
 
      Expected output
@@ -69,7 +69,7 @@ ____________________________________________________________
      ```text
      ____________________________________________________________
       Got it. I've added this task:
-        [D][ ] return book (by: Sunday)
+        [D][ ] return book (by: 31-10-2026)
       Now you have 2 tasks in the list.
      ____________________________________________________________
      ```
@@ -77,7 +77,7 @@ ____________________________________________________________
   3. Input
 
      ```text
-     event project meeting /from Monday 2pm /to Monday 3pm
+     event project meeting /from 01/11/2026 /to 02/11/2026
      ```
 
      Expected output
@@ -85,7 +85,7 @@ ____________________________________________________________
      ```text
      ____________________________________________________________
       Got it. I've added this task:
-        [E][ ] project meeting (from: Monday 2pm to: Monday 3pm)
+        [E][ ] project meeting (from: 01-11-2026 to: 02-11-2026)
       Now you have 3 tasks in the list.
      ____________________________________________________________
      ```
@@ -102,8 +102,8 @@ ____________________________________________________________
      ____________________________________________________________
       Here are the tasks in your list:
       1.[T][ ] read book
-      2.[D][ ] return book (by: Sunday)
-      3.[E][ ] project meeting (from: Monday 2pm to: Monday 3pm)
+      2.[D][ ] return book (by: 31-10-2026)
+      3.[E][ ] project meeting (from: 01-11-2026 to: 02-11-2026)
      ____________________________________________________________
      ```
 
@@ -118,7 +118,7 @@ ____________________________________________________________
      ```text
      ____________________________________________________________
       Nice! I've marked this task as done:
-        [D][X] return book (by: Sunday)
+        [D][X] return book (by: 31-10-2026)
      ____________________________________________________________
      ```
 
@@ -133,7 +133,7 @@ ____________________________________________________________
      ```text
      ____________________________________________________________
       OK, I've marked this task as not done yet:
-        [D][ ] return book (by: Sunday)
+        [D][ ] return book (by: 31-10-2026)
      ____________________________________________________________
      ```
 
@@ -148,7 +148,7 @@ ____________________________________________________________
      ```text
      ____________________________________________________________
       Noted. I've removed this task:
-        [D][ ] return book (by: Sunday)
+        [D][ ] return book (by: 31-10-2026)
       Now you have 2 tasks in the list.
      ____________________________________________________________
      ```
@@ -165,7 +165,7 @@ ____________________________________________________________
      ____________________________________________________________
       Here are the tasks in your list:
       1.[T][ ] read book
-      2.[E][ ] project meeting (from: Monday 2pm to: Monday 3pm)
+      2.[E][ ] project meeting (from: 01-11-2026 to: 02-11-2026)
      ____________________________________________________________
      ```
 
@@ -187,15 +187,15 @@ ____________________________________________________________
 
   ```text
   T | 0 | read book
-  D | 0 | return book | Sunday
-  E | 0 | project meeting | Monday 2pm | Monday 3pm
+  D | 0 | return book | 31-10-2026
+  E | 0 | project meeting | 01-11-2026 | 02-11-2026
   ```
 
 - Expected save file after step 7: `data/potato.txt` no longer contains the deleted deadline. Its exact contents are:
 
   ```text
   T | 0 | read book
-  E | 0 | project meeting | Monday 2pm | Monday 3pm
+  E | 0 | project meeting | 01-11-2026 | 02-11-2026
   ```
 
 ## TC-2: Invalid task input recovery
@@ -249,6 +249,36 @@ ____________________________________________________________
   4. Input
 
      ```text
+     deadline return book /by 2026-10-31
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid deadline input. Format: deadline [description] /by [date]
+     [date formats: DD-MM-YYYY or DD/MM/YYYY]
+     ____________________________________________________________
+     ```
+
+  5. Input
+
+     ```text
+     event project meeting /from 31-10-2026 /to 31/02/2026
+     ```
+
+     Expected output
+
+     ```text
+     ____________________________________________________________
+     Invalid event input. Format: event [description] /from [date] /to [date]
+     [date formats: DD-MM-YYYY or DD/MM/YYYY]
+     ____________________________________________________________
+     ```
+
+  6. Input
+
+     ```text
      todo read book
      ```
 
@@ -262,7 +292,7 @@ ____________________________________________________________
      ____________________________________________________________
      ```
 
-  5. Input
+  7. Input
 
      ```text
      bye
@@ -283,8 +313,8 @@ ____________________________________________________________
 
   ```text
   T | 1 | read book
-  D | 0 | return book | Sunday
-  E | 1 | project meeting | Monday 2pm | Monday 3pm
+  D | 0 | return book | 31-10-2026
+  E | 1 | project meeting | 01/11/2026 | 02/11/2026
   ```
 
 - Inputs and expected outputs:
@@ -301,8 +331,8 @@ ____________________________________________________________
      ____________________________________________________________
       Here are the tasks in your list:
       1.[T][X] read book
-      2.[D][ ] return book (by: Sunday)
-      3.[E][X] project meeting (from: Monday 2pm to: Monday 3pm)
+      2.[D][ ] return book (by: 31-10-2026)
+      3.[E][X] project meeting (from: 01-11-2026 to: 02-11-2026)
      ____________________________________________________________
      ```
 
@@ -328,8 +358,8 @@ ____________________________________________________________
   ```text
   T | 1 | read book
   this line is not task data
-  D | 0 | return book | Sunday
-  E | maybe | project meeting | Monday 2pm | Monday 3pm
+  D | 0 | return book | 31-10-2026
+  E | maybe | project meeting | 01-11-2026 | 02-11-2026
   ```
 
 - Expected startup output:
@@ -338,7 +368,7 @@ ____________________________________________________________
   Warning: skipped malformed save-file line 2:
   this line is not task data
   Warning: skipped malformed save-file line 4:
-  E | maybe | project meeting | Monday 2pm | Monday 3pm
+  E | maybe | project meeting | 01-11-2026 | 02-11-2026
   ____________________________________________________________
    ____   ___    _____     _     _____   ___
   |  _ \ / _ \  |_   _|   / \   |_   _| / _ \
@@ -364,7 +394,7 @@ ____________________________________________________________
      ____________________________________________________________
       Here are the tasks in your list:
       1.[T][X] read book
-      2.[D][ ] return book (by: Sunday)
+      2.[D][ ] return book (by: 31-10-2026)
      ____________________________________________________________
      ```
 
@@ -402,7 +432,7 @@ ____________________________________________________________
 
   ```text
   T | 1 | read book
-  D | 0 | return book | Sunday
+  D | 0 | return book | 31-10-2026
   T | 0 | buy groceries
   ```
 

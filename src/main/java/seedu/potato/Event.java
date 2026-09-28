@@ -1,5 +1,8 @@
 package seedu.potato;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 /**
  * Represents a task that occurs between specified start and end times.
  */
@@ -11,18 +14,20 @@ public class Event extends Task {
     private static final String EVENT_END_SEPARATOR = "\\s+/to\\s+";
     private static final int EXPECTED_EVENT_PART_COUNT = 3;
     private static final int EXPECTED_SEPARATOR_PART_COUNT = 2;
+    private static final String INVALID_INPUT_MESSAGE =
+            "Invalid event input. Format: event [description] /from [date] /to [date]";
 
-    private final String from;
-    private final String to;
+    private final LocalDate from;
+    private final LocalDate to;
 
     /**
      * Creates an incomplete event with the given description and time range.
      *
      * @param description Description of the task.
-     * @param from Date or time at which the event starts.
-     * @param to Date or time at which the event ends.
+     * @param from Date on which the event starts.
+     * @param to Date on which the event ends.
      */
-    public Event(String description, String from, String to) {
+    public Event(String description, LocalDate from, LocalDate to) {
         super(description);
         this.from = from;
         this.to = to;
@@ -36,7 +41,17 @@ public class Event extends Task {
      */
     public static boolean isValidInput(String taskInput) {
         String[] eventParts = splitInput(taskInput);
-        return hasNonBlankParts(eventParts, EXPECTED_EVENT_PART_COUNT);
+        if (!hasNonBlankParts(eventParts, EXPECTED_EVENT_PART_COUNT)) {
+            return false;
+        }
+
+        try {
+            DateParser.parse(eventParts[1].trim());
+            DateParser.parse(eventParts[2].trim());
+            return true;
+        } catch (DateTimeParseException exception) {
+            return false;
+        }
     }
 
     /**
@@ -49,10 +64,17 @@ public class Event extends Task {
     static Event createFromInput(String taskInput) {
         String[] eventParts = splitInput(taskInput);
         if (!hasNonBlankParts(eventParts, EXPECTED_EVENT_PART_COUNT)) {
-            throw new IllegalArgumentException(
-                "Invalid event input. Format: event [description] /from [date] /to [date]");
+            throw new IllegalArgumentException(INVALID_INPUT_MESSAGE);
         }
-        return new Event(eventParts[0], eventParts[1], eventParts[2]);
+
+        try {
+            LocalDate from = DateParser.parse(eventParts[1].trim());
+            LocalDate to = DateParser.parse(eventParts[2].trim());
+            return new Event(eventParts[0], from, to);
+        } catch (DateTimeParseException exception) {
+            throw new IllegalArgumentException(INVALID_INPUT_MESSAGE + System.lineSeparator()
+                    + DateParser.DATE_FORMAT_HINT, exception);
+        }
     }
 
     /**
@@ -62,7 +84,8 @@ public class Event extends Task {
      */
     @Override
     public String toDataString() {
-        return "E | " + getDataStatus() + " | " + description + " | " + from + " | " + to;
+        return "E | " + getDataStatus() + " | " + description + " | "
+                + DateParser.format(from) + " | " + DateParser.format(to);
     }
 
     /**
@@ -117,6 +140,6 @@ public class Event extends Task {
     @Override
     public String toString() {
         return EVENT_SYMBOL + "[" + getStatusIcon() + "] " + description
-                + " (from: " + from + " to: " + to + ")";
+                + " (from: " + DateParser.format(from) + " to: " + DateParser.format(to) + ")";
     }
 }

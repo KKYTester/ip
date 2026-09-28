@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,13 +92,14 @@ public class Storage {
                 if (fields.length != Deadline.DATA_FIELD_COUNT) {
                     throw createInvalidDataException(lineNumber);
                 }
-                task = new Deadline(fields[2], fields[3]);
+                task = new Deadline(fields[2], parseStoredDate(fields[3], lineNumber));
                 break;
             case "E":
                 if (fields.length != Event.DATA_FIELD_COUNT) {
                     throw createInvalidDataException(lineNumber);
                 }
-                task = new Event(fields[2], fields[3], fields[4]);
+                task = new Event(fields[2], parseStoredDate(fields[3], lineNumber),
+                        parseStoredDate(fields[4], lineNumber));
                 break;
             default:
                 throw createInvalidDataException(lineNumber);
@@ -108,6 +111,22 @@ public class Storage {
             throw createInvalidDataException(lineNumber);
         }
         return task;
+    }
+
+    /**
+     * Parses a date from stored task data.
+     *
+     * @param dateText Stored date text.
+     * @param lineNumber One-based line number used in error messages.
+     * @return Parsed calendar date.
+     * @throws IOException If the stored date is malformed.
+     */
+    private LocalDate parseStoredDate(String dateText, int lineNumber) throws IOException {
+        try {
+            return DateParser.parse(dateText);
+        } catch (DateTimeParseException exception) {
+            throw createInvalidDataException(lineNumber);
+        }
     }
 
     /**

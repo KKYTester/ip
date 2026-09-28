@@ -1,5 +1,8 @@
 package seedu.potato;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+
 /**
  * Represents a task that must be completed by a specified date or time.
  */
@@ -9,16 +12,18 @@ public class Deadline extends Task {
     private static final String DEADLINE_SYMBOL = "[D]";
     private static final String DEADLINE_SEPARATOR = "\\s+/by\\s+";
     private static final int EXPECTED_PART_COUNT = 2;
+    private static final String INVALID_INPUT_MESSAGE =
+            "Invalid deadline input. Format: deadline [description] /by [date]";
 
-    private final String by;
+    private final LocalDate by;
 
     /**
      * Creates an incomplete deadline with the given description and due date.
      *
      * @param description Description of the task.
-     * @param by Date or time by which the task must be completed.
+     * @param by Date by which the task must be completed.
      */
-    public Deadline(String description, String by) {
+    public Deadline(String description, LocalDate by) {
         super(description);
         this.by = by;
     }
@@ -31,7 +36,16 @@ public class Deadline extends Task {
      */
     public static boolean isValidInput(String taskInput) {
         String[] deadlineParts = splitInput(taskInput);
-        return hasNonBlankParts(deadlineParts, EXPECTED_PART_COUNT);
+        if (!hasNonBlankParts(deadlineParts, EXPECTED_PART_COUNT)) {
+            return false;
+        }
+
+        try {
+            DateParser.parse(deadlineParts[1].trim());
+            return true;
+        } catch (DateTimeParseException exception) {
+            return false;
+        }
     }
 
     /**
@@ -44,9 +58,16 @@ public class Deadline extends Task {
     static Deadline createFromInput(String taskInput) {
         String[] deadlineParts = splitInput(taskInput);
         if (!hasNonBlankParts(deadlineParts, EXPECTED_PART_COUNT)) {
-            throw new IllegalArgumentException("Invalid deadline input. Format: deadline [description] /by [date]");
+            throw new IllegalArgumentException(INVALID_INPUT_MESSAGE);
         }
-        return new Deadline(deadlineParts[0], deadlineParts[1]);
+
+        try {
+            LocalDate by = DateParser.parse(deadlineParts[1].trim());
+            return new Deadline(deadlineParts[0], by);
+        } catch (DateTimeParseException exception) {
+            throw new IllegalArgumentException(INVALID_INPUT_MESSAGE + System.lineSeparator()
+                    + DateParser.DATE_FORMAT_HINT, exception);
+        }
     }
 
     /**
@@ -56,7 +77,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toDataString() {
-        return "D | " + getDataStatus() + " | " + description + " | " + by;
+        return "D | " + getDataStatus() + " | " + description + " | " + DateParser.format(by);
     }
 
     /**
@@ -99,6 +120,7 @@ public class Deadline extends Task {
      */
     @Override
     public String toString() {
-        return DEADLINE_SYMBOL + "[" + getStatusIcon() + "] " + description + " (by: " + by + ")";
+        return DEADLINE_SYMBOL + "[" + getStatusIcon() + "] " + description
+                + " (by: " + DateParser.format(by) + ")";
     }
 }
