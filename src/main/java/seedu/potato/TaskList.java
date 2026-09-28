@@ -9,10 +9,11 @@ import java.util.List;
 /**
  * Stores tasks entered during the current application session.
  */
-public class TaskList {
+public class TaskList extends ArrayList<Task> {
+    /** Serialization version used because {@code ArrayList} is serializable. */
+    private static final long serialVersionUID = 1L;
     private static final int INITIAL_CAPACITY = 100;
 
-    private final ArrayList<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
     private final Storage storage;
 
     /**
@@ -21,6 +22,7 @@ public class TaskList {
      * @param storage Storage used to save tasks.
      */
     public TaskList(Storage storage) {
+        super(INITIAL_CAPACITY);
         this.storage = storage;
     }
 
@@ -31,8 +33,9 @@ public class TaskList {
      * @param initialTasks Tasks to place in the list at startup.
      */
     public TaskList(Storage storage, List<Task> initialTasks) {
+        super(INITIAL_CAPACITY);
         this.storage = storage;
-        tasks.addAll(initialTasks);
+        addAll(initialTasks);
     }
 
     /**
@@ -41,9 +44,9 @@ public class TaskList {
      * @param newTask Task to store.
      * @throws IOException If the task save file cannot be written.
      */
-    public void add(Task newTask) throws IOException {
-        tasks.add(newTask);
-        storage.save(tasks);
+    public void addTask(Task newTask) throws IOException {
+        add(newTask);
+        storage.save(this);
     }
 
     /**
@@ -52,7 +55,7 @@ public class TaskList {
      * @return Number of tasks in the list.
      */
     public int getTaskCount() {
-        return tasks.size();
+        return size();
     }
 
     /**
@@ -65,8 +68,8 @@ public class TaskList {
      */
     public Task delete(int taskNumber) throws IOException {
         int taskIndex = taskNumber - 1;
-        Task taskRemoved = tasks.remove(taskIndex);
-        storage.save(tasks);
+        Task taskRemoved = remove(taskIndex);
+        storage.save(this);
         return taskRemoved;
     }
 
@@ -81,7 +84,7 @@ public class TaskList {
     public Task markAsDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsDone();
-        storage.save(tasks);
+        storage.save(this);
         return task;
     }
 
@@ -96,17 +99,8 @@ public class TaskList {
     public Task markAsNotDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsNotDone();
-        storage.save(tasks);
+        storage.save(this);
         return task;
-    }
-
-    /**
-     * Returns an unmodifiable snapshot of the stored tasks.
-     *
-     * @return Tasks in input order.
-     */
-    public List<Task> getTasks() {
-        return List.copyOf(tasks);
     }
 
     /**
@@ -120,7 +114,7 @@ public class TaskList {
         List<Task> foundTasks = new ArrayList<>();
         LocalDate searchDate = parseSearchDate(searchText);
 
-        for (Task task : tasks) {
+        for (Task task : this) {
             if (task.containsDescription(searchText)
                     || searchDate != null && task.containsDate(searchDate)) {
                 foundTasks.add(task);
@@ -152,9 +146,9 @@ public class TaskList {
      */
     private Task getTask(int taskNumber) {
         int taskIndex = taskNumber - 1;
-        if (taskIndex < 0 || taskIndex >= tasks.size()) {
+        if (taskIndex < 0 || taskIndex >= size()) {
             throw new IndexOutOfBoundsException("Task number is outside the list");
         }
-        return tasks.get(taskIndex);
+        return get(taskIndex);
     }
 }
