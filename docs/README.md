@@ -25,6 +25,7 @@ Potato saves every change automatically and reloads your tasks the next time it 
 - Words in `UPPER_CASE` are parameters that you must replace with your own values.
 - Dates must use `DD-MM-YYYY` or `DD/MM/YYYY`, for example `31-10-2026` or `31/10/2026`.
 - Optional times must appear after their date and use 24-hour `HH:mm`, for example `18:30`.
+- Potato does not display a time of `00:00`, because a date without a displayed time is treated as midnight on that date.
 - `TASK_NUMBER` is the positive integer shown beside a task by the `list` command.
 - Command words are not case-sensitive. Enter `/by`, `/from`, and `/to` exactly as shown in the command formats.
 - Descriptions are stored exactly as entered, and description searches are case-sensitive.
@@ -54,6 +55,7 @@ Format: `deadline DESCRIPTION /by DATE [TIME]`
 - `DESCRIPTION` and `DATE` must not be blank.
 - `DATE` must be a valid calendar date in one of Potato's supported date formats.
 - `TIME` is optional. When provided, it must use the 24-hour `HH:mm` format.
+- Entering `00:00` has the same meaning as omitting `TIME`: "by a particular date" means by midnight on that date, so `00:00` is not displayed.
 - Potato displays saved dates as `DD MMM YYYY` and appends the time when provided.
 
 Examples:
