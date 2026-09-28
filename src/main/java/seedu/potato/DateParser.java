@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
+import java.util.Locale;
 
 /**
  * Parses and formats task dates using the date formats supported by Potato.
@@ -15,6 +16,8 @@ final class DateParser {
             .withResolverStyle(ResolverStyle.STRICT);
     private static final DateTimeFormatter SLASH_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/uuuu")
             .withResolverStyle(ResolverStyle.STRICT);
+    private static final DateTimeFormatter DISPLAY_DATE_FORMAT =
+            DateTimeFormatter.ofPattern("dd MMM uuuu", Locale.ENGLISH);
 
     private DateParser() {
     }
@@ -42,5 +45,15 @@ final class DateParser {
      */
     static String format(LocalDate date) {
         return date.format(DASH_DATE_FORMAT);
+    }
+
+    /**
+     * Formats a date for display using an abbreviated English month name.
+     *
+     * @param date Date to format.
+     * @return Date formatted as {@code DD MMM YYYY}.
+     */
+    static String formatForDisplay(LocalDate date) {
+        return date.format(DISPLAY_DATE_FORMAT);
     }
 }

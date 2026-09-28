@@ -140,6 +140,7 @@ public class Event extends Task {
     @Override
     public String toString() {
         return EVENT_SYMBOL + "[" + getStatusIcon() + "] " + description
-                + " (from: " + DateParser.format(from) + " to: " + DateParser.format(to) + ")";
+                + " (from: " + DateParser.formatForDisplay(from)
+                + " to: " + DateParser.formatForDisplay(to) + ")";
     }
 }
