@@ -121,6 +121,6 @@ public class Deadline extends Task {
     @Override
     public String toString() {
         return DEADLINE_SYMBOL + "[" + getStatusIcon() + "] " + description
-                + " (by: " + DateParser.format(by) + ")";
+                + " (by: " + DateParser.formatForDisplay(by) + ")";
     }
 }
