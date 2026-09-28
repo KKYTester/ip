@@ -139,3 +139,14 @@ Format: `bye`
 Example:
 
 - `bye` exits Potato.
+
+### Saving the data
+
+Potato automatically saves your task list after every command that adds, marks, unmarks, or deletes a task. You do not need to save your data manually.
+
+### Editing the data file
+
+Potato stores your task list in the text file `data/potato.txt`, relative to the folder from which you run the application. Advanced users may edit this file directly while Potato is not running.
+
+> [!CAUTION]
+> Back up `data/potato.txt` before editing it. If a line has an invalid format, Potato displays a warning and skips that line when it next starts. The skipped task will be lost from the file after the next command that changes the task list. Edit the data file only if you are confident that you can preserve its format correctly.
