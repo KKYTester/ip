@@ -10,6 +10,7 @@ public class CommandParser {
     private static final String MARK_COMMAND = "mark";
     private static final String DELETE_COMMAND = "delete";
     private static final String LIST_COMMAND = "list";
+    private static final String FIND_COMMAND = "find";
     private static final String EXIT_COMMAND = "bye";
     private static final String TODO_COMMAND = "todo";
     private static final String DEADLINE_COMMAND = "deadline";
@@ -62,6 +63,11 @@ public class CommandParser {
 
         if (commandParts[0].equalsIgnoreCase(DELETE_COMMAND)) {
             deleteTask(commandParts);
+            return false;
+        }
+
+        if (commandParts[0].equalsIgnoreCase(FIND_COMMAND)) {
+            findTasks(commandParts);
             return false;
         }
 
@@ -167,5 +173,19 @@ public class CommandParser {
         } catch (NumberFormatException | IndexOutOfBoundsException exception) {
             command.showInvalidTaskNumber();
         }
+    }
+
+    /**
+     * Finds and displays tasks selected by a {@code find SEARCH_TEXT} command.
+     *
+     * @param commandParts Command word and its search text.
+     */
+    private void findTasks(String[] commandParts) {
+        if (commandParts.length < 2 || commandParts[1].isBlank()) {
+            command.showInvalidCommand();
+            return;
+        }
+
+        command.showFoundTasks(taskList.find(commandParts[1]));
     }
 }

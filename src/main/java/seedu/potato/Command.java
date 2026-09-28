@@ -97,6 +97,23 @@ public class Command {
     }
 
     /**
+     * Displays tasks found by a search with one-based numbering.
+     *
+     * @param foundTasks Matching tasks in their original list order.
+     */
+    public void showFoundTasks(List<Task> foundTasks) {
+        System.out.println(SEPARATOR);
+        System.out.println(" Here are the matching tasks in your list:");
+        if (foundTasks.isEmpty()) {
+            System.out.println(" [No matching tasks found]");
+        }
+        for (int i = 0; i < foundTasks.size(); i++) {
+            System.out.printf(" %d.%s%n", i + 1, foundTasks.get(i));
+        }
+        System.out.println(SEPARATOR);
+    }
+
+    /**
      * Confirms that a task has been marked as done.
      *
      * @param task Task that was completed.

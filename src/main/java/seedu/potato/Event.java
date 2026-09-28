@@ -89,6 +89,17 @@ public class Event extends Task {
     }
 
     /**
+     * Reports whether this event stores the given date.
+     *
+     * @param date Date to find in this event.
+     * @return {@code true} if the event starts or ends on the date.
+     */
+    @Override
+    public boolean containsDate(LocalDate date) {
+        return from.equals(date) || to.equals(date);
+    }
+
+    /**
      * Splits raw event input into its description, start, and end values.
      *
      * @param taskInput Raw input following the event command word.

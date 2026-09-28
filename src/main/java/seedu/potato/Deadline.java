@@ -81,6 +81,17 @@ public class Deadline extends Task {
     }
 
     /**
+     * Reports whether this deadline stores the given date.
+     *
+     * @param date Date to find in this deadline.
+     * @return {@code true} if the deadline is due on the date.
+     */
+    @Override
+    public boolean containsDate(LocalDate date) {
+        return by.equals(date);
+    }
+
+    /**
      * Splits raw deadline input into its description and due date.
      *
      * @param taskInput Raw input following the deadline command word.

@@ -1,5 +1,7 @@
 package seedu.potato;
 
+import java.time.LocalDate;
+
 /**
  * Represents a task and its completion state.
  */
@@ -38,6 +40,26 @@ public abstract class Task {
      */
     public String getStatusIcon() {
         return isDone ? "X" : " ";
+    }
+
+    /**
+     * Reports whether this task's description contains the given search text.
+     *
+     * @param searchText Text to find in the description.
+     * @return {@code true} if the description contains the search text.
+     */
+    public boolean containsDescription(String searchText) {
+        return description.contains(searchText);
+    }
+
+    /**
+     * Reports whether this task stores the given date.
+     *
+     * @param date Date to find in this task.
+     * @return {@code true} if the task stores the date.
+     */
+    public boolean containsDate(LocalDate date) {
+        return false;
     }
 
     /**
