@@ -47,7 +47,7 @@ public class CommandParser {
         }
 
         if (trimmedInput.equalsIgnoreCase(LIST_COMMAND)) {
-            command.showTaskList(taskList);
+            command.showTaskList(taskList.getTasks());
             return false;
         }
 
@@ -73,7 +73,7 @@ public class CommandParser {
 
         try {
             Task newTask = createTask(commandParts);
-            taskList.addTask(newTask);
+            taskList.add(newTask);
             command.showTaskAdded(newTask, taskList.getTaskCount());
         } catch (IllegalArgumentException exception) {
             System.out.println(Command.SEPARATOR);

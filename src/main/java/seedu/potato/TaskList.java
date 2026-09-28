@@ -9,11 +9,10 @@ import java.util.List;
 /**
  * Stores tasks entered during the current application session.
  */
-public class TaskList extends ArrayList<Task> {
-    /** Serialization version used because {@code ArrayList} is serializable. */
-    private static final long serialVersionUID = 1L;
+public class TaskList {
     private static final int INITIAL_CAPACITY = 100;
 
+    private final ArrayList<Task> tasks = new ArrayList<>(INITIAL_CAPACITY);
     private final Storage storage;
 
     /**
@@ -22,7 +21,6 @@ public class TaskList extends ArrayList<Task> {
      * @param storage Storage used to save tasks.
      */
     public TaskList(Storage storage) {
-        super(INITIAL_CAPACITY);
         this.storage = storage;
     }
 
@@ -33,9 +31,8 @@ public class TaskList extends ArrayList<Task> {
      * @param initialTasks Tasks to place in the list at startup.
      */
     public TaskList(Storage storage, List<Task> initialTasks) {
-        super(INITIAL_CAPACITY);
         this.storage = storage;
-        addAll(initialTasks);
+        tasks.addAll(initialTasks);
     }
 
     /**
@@ -44,9 +41,9 @@ public class TaskList extends ArrayList<Task> {
      * @param newTask Task to store.
      * @throws IOException If the task save file cannot be written.
      */
-    public void addTask(Task newTask) throws IOException {
-        add(newTask);
-        storage.save(this);
+    public void add(Task newTask) throws IOException {
+        tasks.add(newTask);
+        storage.save(tasks);
     }
 
     /**
@@ -55,7 +52,7 @@ public class TaskList extends ArrayList<Task> {
      * @return Number of tasks in the list.
      */
     public int getTaskCount() {
-        return size();
+        return tasks.size();
     }
 
     /**
@@ -68,8 +65,8 @@ public class TaskList extends ArrayList<Task> {
      */
     public Task delete(int taskNumber) throws IOException {
         int taskIndex = taskNumber - 1;
-        Task taskRemoved = remove(taskIndex);
-        storage.save(this);
+        Task taskRemoved = tasks.remove(taskIndex);
+        storage.save(tasks);
         return taskRemoved;
     }
 
@@ -84,7 +81,7 @@ public class TaskList extends ArrayList<Task> {
     public Task markAsDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsDone();
-        storage.save(this);
+        storage.save(tasks);
         return task;
     }
 
@@ -99,8 +96,17 @@ public class TaskList extends ArrayList<Task> {
     public Task markAsNotDone(int taskNumber) throws IOException {
         Task task = getTask(taskNumber);
         task.markAsNotDone();
-        storage.save(this);
+        storage.save(tasks);
         return task;
+    }
+
+    /**
+     * Returns an unmodifiable snapshot of the stored tasks.
+     *
+     * @return Tasks in input order.
+     */
+    public List<Task> getTasks() {
+        return List.copyOf(tasks);
     }
 
     /**
@@ -114,7 +120,7 @@ public class TaskList extends ArrayList<Task> {
         List<Task> foundTasks = new ArrayList<>();
         LocalDate searchDate = parseSearchDate(searchText);
 
-        for (Task task : this) {
+        for (Task task : tasks) {
             if (task.containsDescription(searchText)
                     || searchDate != null && task.containsDate(searchDate)) {
                 foundTasks.add(task);
@@ -146,9 +152,9 @@ public class TaskList extends ArrayList<Task> {
      */
     private Task getTask(int taskNumber) {
         int taskIndex = taskNumber - 1;
-        if (taskIndex < 0 || taskIndex >= size()) {
+        if (taskIndex < 0 || taskIndex >= tasks.size()) {
             throw new IndexOutOfBoundsException("Task number is outside the list");
         }
-        return get(taskIndex);
+        return tasks.get(taskIndex);
     }
 }
